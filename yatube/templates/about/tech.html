@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Технологии{% endblock %}
+
+{% block content %}
+{% load static %}
+<div class="row">
+  <h1 align="center">Используемые технологии</h1>
+  <aside class="col-12 col-md-3">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">
+        <span>&#128013;</span>Python
+      </li>
+      <li class="list-group-item">
+        <span>&#128174;</span>Django
+      </li>
+    </ul>
+  </aside>
+  <article class="col-12 col-md-9">
+    <p>
+      Без товарища Змейки не было бы <s>ничего</s> этого сайта.<br>
+
+      А без товарища Джанго он был бы сам не свой <i>(пожалуй, шутки мне сегодня не даются)</i>.<br>
+      
+      На самом деле я не знаю чего интересного сюда написать чтобы товарищ Ревьюер 
+      был рад и доволен<span>&#127803;</span>.<br>
+      
+      Впрочем, у меня не получается сверстать страницы как мне нравится, поэтому мне тоже грустненько...<br>
+
+      В общем, когда-нибудь здесь будет нормальная информация.<br>
+
+      А пока, у меня нет фото настоящего питона, поэтому тут будет фото белки.
+    </p>
+    <a>
+      <img src="{% static 'img/3.jpg' %}" width="600" height="400" alt="">
+    </a>
+  </article>
+</div>
+{% endblock %}

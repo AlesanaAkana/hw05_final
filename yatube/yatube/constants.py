@@ -1,0 +1,5 @@
+COUNT_POST: int = 10
+
+POST_STR_CUT_TEXT: int = 15
+
+GROUP_STR_CUT_TITLE: int = 50
