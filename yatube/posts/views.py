@@ -1,13 +1,14 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.cache import cache_page
+from yatube.constants import TIMEOUT
 
 from .forms import CommentForm, PostForm
 from .models import Follow, Group, Post, User
 from .utils import get_page_context
 
 
-@cache_page(timeout=20, key_prefix='index_page')
+@cache_page(timeout=TIMEOUT, key_prefix='index_page')
 def index(request):
     post_list = Post.objects.all()
     context = get_page_context(post_list, request)
@@ -28,7 +29,8 @@ def profile(request, username):
     author = get_object_or_404(User, username=username)
     post_list = author.posts.select_related('group', 'author')
     following = request.user.is_authenticated and (
-        Follow.objects.select_related('user', 'author').exists())
+        Follow.objects.select_related('user', 'author').exists()
+    )
     context = {
         'author': author,
         'following': following,
