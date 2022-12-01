@@ -3,6 +3,7 @@ import tempfile
 from http import HTTPStatus
 
 from django.conf import settings
+from django.core.cache import cache
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
@@ -41,6 +42,7 @@ class PostFormTests(TestCase):
         self.authorized_client.force_login(self.user)
         self.authorized_author = Client()
         self.authorized_author.force_login(self.user_author)
+        cache.clear()
 
     def test_create_form(self):
         """Валидная форма создает запись в Post."""

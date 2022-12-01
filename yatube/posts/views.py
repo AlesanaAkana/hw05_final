@@ -7,7 +7,7 @@ from .models import Follow, Group, Post, User
 from .utils import get_page_context
 
 
-@cache_page(20)
+@cache_page(timeout=20, key_prefix='index_page')
 def index(request):
     post_list = Post.objects.all()
     context = get_page_context(post_list, request)
@@ -27,12 +27,8 @@ def group_posts(request, slug):
 def profile(request, username):
     author = get_object_or_404(User, username=username)
     post_list = author.posts.select_related('group', 'author')
-    if request.user.is_authenticated and request.user != author:
-        following = Follow.objects.select_related(
-            'user', 'author'
-        ).exists()
-    else:
-        following = False
+    following = request.user.is_authenticated and (
+        Follow.objects.select_related('user', 'author').exists())
     context = {
         'author': author,
         'following': following,
@@ -74,37 +70,37 @@ def post_create(request):
 def post_edit(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
 
-    if request.user == post.author:
+    if request.user != post.author:
+        return redirect('posts:post_detail', post_id)
 
-        form = PostForm(
-            request.POST or None,
-            files=request.FILES or None,
-            instance=post
-        )
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.save()
-            return redirect('posts:post_detail', post_id=post.pk)
-        context = {
-            'form': form,
-            'is_edit': True,
-            'post': post,
-        }
-        return render(request, 'posts/create_post.html', context)
-
-    return redirect('posts:post_detail', post_id)
+    form = PostForm(
+        request.POST or None,
+        files=request.FILES or None,
+        instance=post
+    )
+    if form.is_valid():
+        post = form.save(commit=False)
+        post.author = request.user
+        post.save()
+        return redirect('posts:post_detail', post_id=post.pk)
+    context = {
+        'form': form,
+        'is_edit': True,
+        'post': post,
+    }
+    return render(request, 'posts/create_post.html', context)
 
 
 @login_required
 def post_delete(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
 
-    if request.user == post.author:
-        post_to_delete = post.author.posts.get(pk=post_id)
-        post_to_delete.delete()
-        return redirect('posts:profile', request.user)
-    return redirect('posts:post_detail', post_id)
+    if request.user != post.author:
+        return redirect('posts:post_detail', post_id)
+
+    post_to_delete = post.author.posts.get(pk=post_id)
+    post_to_delete.delete()
+    return redirect('posts:profile', request.user) 
 
 
 @login_required
