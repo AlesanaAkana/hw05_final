@@ -100,7 +100,7 @@ def post_delete(request, post_id):
 
     post_to_delete = post.author.posts.get(pk=post_id)
     post_to_delete.delete()
-    return redirect('posts:profile', request.user) 
+    return redirect('posts:profile', request.user)
 
 
 @login_required
