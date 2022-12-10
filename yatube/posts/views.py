@@ -4,7 +4,7 @@ from django.views.decorators.cache import cache_page
 from yatube.constants import TIMEOUT
 
 from .forms import CommentForm, PostForm
-from .models import Follow, Group, Post, User
+from .models import Comment, Follow, Group, Post, User
 from .utils import get_page_context
 
 
@@ -117,6 +117,15 @@ def add_comment(request, post_id):
         comment.save()
 
     return redirect('posts:post_detail', post_id=post_id)
+
+
+@login_required
+def delete_comment(request, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+    if comment.author == request.user:
+        comment.delete()
+        return redirect('posts:post_detail', post_id=comment.post.id)
+    return redirect('posts:post_detail', post_id=comment.post.id)
 
 
 @login_required
