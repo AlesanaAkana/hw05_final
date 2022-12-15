@@ -6,47 +6,66 @@
 <div class="row">
   <aside class="col-12 col-md-3">
     <ul class="list-group list-group-flush">
-      <li class="list-group-item">
-        Дата публикации: {{ post.pub_date|date:"d E Y" }} 
-      </li>
-      {% if post.group %}  
-      <li class="list-group-item">
-        Группа: {{ post.group.title }}
-        <a href="{% url 'posts:group_list' post.group.slug %}"><br>
-          все записи группы
-        </a>
-      {% endif %}
-      </li>
-      <li class="list-group-item">
-        Автор: {{ post.author.get_full_name }}
-      </li>
-      <li class="list-group-item d-flex justify-content-between align-items-center">
-        Всего постов автора:  <span>{{ post.author.posts.count }}</span>
-      </li>
-      <li class="list-group-item">
-        <a href="{% url 'posts:profile' post.author %}">
-          все посты пользователя
-        </a>
-      </li>
+      <div class="card">
+        <li class="list-group-item">
+          Автор: <a href="{% url 'posts:profile' post.author %}">
+            {{ post.author.get_full_name }}
+          </a>
+        </li>
+        {% if post.group %}  
+          <li class="list-group-item">
+            Группа:
+            <a href="{% url 'posts:group_list' post.group.slug %}">
+              {{ post.group.title }}
+            </a>
+          </li>
+        {% endif %}
+        <li class="list-group-item">
+          Дата публикации: {{ post.pub_date|date:"d E Y" }} 
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          Всего постов автора: {{ post.author.posts.count }}
+        </li>
+      </div>
     </ul>
   </aside>
   <article class="col-12 col-md-9">
-    <p>
-      {{ post.text }} 
-    </p>
-      {% thumbnail post.image "960x339" upscale=True as im %}
-        <img src="{{ im.url }}">
-      {% endthumbnail %} <br>
-        {% if user == post.author %}
-        <button type="submit" class="btn btn-link">
-          <a class="btn btn-primary" href="{% url 'posts:post_edit' post.id %}">
-            Редактировать пост</a>
-        </button>
-        <button type="submit" class="btn btn-link">
-          <a class="btn btn-primary" href="{% url 'posts:post_delete' post.id %}">
-            Удалить пост</a>
-        </button>
-        {% endif %}
+    <div class="card">
+      {% if post.image %}
+        <div class="card-header">
+          <p>
+            {{ post.text }} 
+          </p>
+        </div>
+        {% else %}
+        <div class="card-body">
+          <p>
+            {{ post.text }} 
+          </p>
+        </div>
+      {% endif %}
+      {% if post.image %}
+        <div class="card-body">
+          {% thumbnail post.image "960x339" upscale=True as im %}
+            <img class="card-img" src="{{ im.url }}">
+          {% endthumbnail %} <br>
+        </div>
+      {% endif %}
+      <div class="card-footer">
+        <center>
+          {% if user == post.author %}
+          <button type="submit" class="btn btn-link">
+            <a class="btn btn-primary" href="{% url 'posts:post_edit' post.id %}">
+              Редактировать пост</a>
+          </button>
+          <button type="submit" class="btn btn-link">
+            <a class="btn btn-primary" href="{% url 'posts:post_delete' post.id %}">
+              Удалить пост</a>
+          </button>
+          {% endif %}
+        </center>
+      </div>
+    </div>
   </article>
 </div>
 {% if user.is_authenticated %}
@@ -76,7 +95,7 @@
         {{ comment.text }}
       </p>
       {% if user == comment.author %}
-        <small><a href="{% url 'posts:delete_comment' comment.id %}">Удалить</a></small>
+        <small><a href="{% url 'posts:delete_comment' comment.id %}"><span>&#10060;</span></a></small>
       {% endif %}
     </div>
   </div>

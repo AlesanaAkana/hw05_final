@@ -1,12 +1,13 @@
 {% load static %}
 
+</style>
 {% with request.resolver_match.view_name as view_name %}
 <header>
-  <nav class="navbar navbar-expand-lg navbar-info" style="background-color: Thistle">
+  <nav class="navbar navbar-expand-lg navbar-info" style="background-color: #ffcccc">
     <div class="container">
       <a class="navbar-brand" href="{% url 'posts:index' %}">
         <img src="{% static 'img/logo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
-        <span style="color:red">Ya</span>tube
+        <span style="color:black">Yatube</span>
       </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent"
             aria-controls="navbarContent" aria-expanded="false">
@@ -38,6 +39,19 @@
           <li class="nav-item"> 
             <a class="nav-link {% if view_name  == 'posts:profile' %}active link-light{% endif %}"
             href="{% url 'posts:profile' user %}">{{ user }}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link"> <label id="select" onclick="darkLight()" style="cursor: pointer;">
+              <span>&#127769;</span></label>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" onclick="autoDarkLight()" >
+                <label class="form-check-label" for="flexSwitchCheckDefault">Автонастройка</label>
+              </div>
+            </a>
           </li>
           {% else %}
           <li class="nav-item">

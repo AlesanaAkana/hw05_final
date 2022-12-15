@@ -4,4 +4,4 @@ POST_STR_CUT_TEXT: int = 15
 
 GROUP_STR_CUT_TITLE: int = 50
 
-TIMEOUT = 20
+TIMEOUT: int = 1

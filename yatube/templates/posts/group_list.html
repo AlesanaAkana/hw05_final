@@ -4,14 +4,17 @@
 {% endblock %}
 
 {% block header %}
-  <h1>{{ group.title }}</h1>
-  <p>{{ group.description|linebreaks }}</p>
+  <div class="card">
+    <div class="card-header">
+      <h1>{{ group.title }}</h1>
+      <p>{{ group.description|linebreaks }}</p>
+    </div>
+  </div><br>
 {% endblock %}
 {% block content %}
   {% for post in page_obj %}
     {% include 'includes/post.html' %}
     {% if not forloop.last %}<hr>{% endif %}
   {% endfor %}
-  
 {% include 'posts/includes/paginator.html' %}
 {% endblock %}

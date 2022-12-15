@@ -96,6 +96,18 @@ class Comment(CreatedModel):
         verbose_name='Комментарий',
         help_text='Введите комментарий поста'
     )
+    created = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Создан'
+    )
+    updated = models.DateTimeField(
+        auto_now=True,
+        verbose_name='Обновлён'
+    )
+    active = models.BooleanField(
+        default=True,
+        verbose_name='Активен'
+    )
 
     class Meta:
         ordering = ('-pub_date',)
