@@ -14,32 +14,42 @@
             <span class="navbar-toggler-icon"></span>
         </button>
       <div class="collapse navbar-collapse" id="navbarContent">
-        <ul class="navbar-nav nav-pills mx-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav nav mx-auto mb-2 mb-lg-0">
           <li class="nav-item"> 
-            <a class="nav-link {% if view_name  == 'about:author' %}active link-light{% endif %}" 
+            <a class="nav-link {% if view_name  == 'about:author' %}active link-dark{% endif %}" 
             href="{% url 'about:author' %}">Об авторе</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {% if view_name  == 'about:tech' %}active link-light{% endif %}" 
+            <a class="nav-link {% if view_name  == 'about:tech' %}active link-dark{% endif %}" 
             href="{% url 'about:tech' %}">Технологии</a>
           </li>
           {% if request.user.is_authenticated %}
           <li class="nav-item"> 
-            <a class="nav-link {% if view_name  == 'posts:post_create' %}active link-light{% endif %}"
+            <a class="nav-link {% if view_name  == 'posts:post_create' %}active link-dark{% endif %}"
             href="{% url 'posts:post_create' %}">Новая запись</a>
           </li>
           <li class="nav-item"> 
-            <a class="nav-link {% if view_name  == 'users:password_change' %}active link-light{% endif %}" 
+            <a class="nav-link {% if view_name  == 'users:password_change' %}active link-dark{% endif %}" 
             href="{% url 'users:password_change' %}">Изменить пароль</a>
           </li>
           <li class="nav-item"> 
-            <a class="nav-link {% if view_name  == 'users:logout' %}active link-light{% endif %}" 
+            <a class="nav-link {% if view_name  == 'users:logout' %}active link-dark{% endif %}" 
             href="{% url 'users:logout' %}">Выйти</a>
           </li>
           <li class="nav-item"> 
-            <a class="nav-link {% if view_name  == 'posts:profile' %}active link-light{% endif %}"
+            <a class="nav-link {% if view_name  == 'posts:profile' %}active link-dark{% endif %}"
             href="{% url 'posts:profile' user %}">{{ user }}</a>
           </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link {% if view_name  == 'users:login' %}active link-dark{% endif %}" 
+            href="{% url 'users:login' %}">Войти</a>
+          </li>
+          <li class="nav-item"> 
+            <a class="nav-link {% if view_name  == 'users:signup' %}active link-dark{% endif %}" 
+            href="{% url 'users:signup' %}">Регистрация</a>
+          </li>
+          {% endif %}
           <li class="nav-item">
             <a class="nav-link"> <label id="select" onclick="darkLight()" style="cursor: pointer;">
               <span>&#127769;</span></label>
@@ -53,16 +63,6 @@
               </div>
             </a>
           </li>
-          {% else %}
-          <li class="nav-item">
-            <a class="nav-link {% if view_name  == 'users:login' %}active link-light{% endif %}" 
-            href="{% url 'users:login' %}">Войти</a>
-          </li>
-          <li class="nav-item"> 
-            <a class="nav-link {% if view_name  == 'users:signup' %}active link-light{% endif %}" 
-            href="{% url 'users:signup' %}">Регистрация</a>
-          </li>
-          {% endif %}
         </ul>
       </div>
     </div>
